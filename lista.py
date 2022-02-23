@@ -6,7 +6,7 @@
 #Nombre del robot, tiempo en minutos para limpiar un metro cuadrado  
 parametros = ("robot_aspirador",2)  
   
-# Empleo de diccionarios para crear las zonas  
+# Empleo de diccionarios para crear las zonas
 zona1={"largo":500,"ancho":150}  
 zona2={"largo":309,"ancho":480}  
 zona3={"largo":101,"ancho":480}  
