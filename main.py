@@ -23,8 +23,8 @@ def cerrarventana():
 ventana = tk.Tk()
 ventana.title('Welcome to Roomba')
 ventana.geometry('380x300')
-label = tk.Label(text="Introduzca las zonas a limpiar:")
-label.pack()
+label = tk.Label(text="Introduzca el número de zonas a limpiar:")
+label.grid(column=0, row=0)
 
 combo = ttk.Combobox(ventana)
 
@@ -32,12 +32,11 @@ combo['values']= (0, 1, 2, 3, 4)
 
 combo.current(0) #set the selected item
 
-combo.grid(column=0, row=0)
+combo.grid(column=1, row=0)
 
 button =tk.Button(ventana, text = 'OK', command = abrirventana2)
-button.pack()
+button.grid(column=2,row=0)
 ventana.mainloop()
-
 
 
 
