@@ -22,7 +22,7 @@ def cerrarventana():
 
 ventana = tk.Tk()
 ventana.title('Welcome to Roomba')
-ventana.geometry('380x300')
+ventana.geometry('520x300')
 label = tk.Label(text="Introduzca el número de zonas a limpiar:")
 label.grid(column=0, row=0)
 
