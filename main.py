@@ -1,40 +1,44 @@
 import tkinter as tk
+from tkinter import LEFT, messagebox
 import tkinter.ttk as ttk
-from tkinter import messagebox
-import alimpiar
-import lista
-import diccionarios
-import script
-import tupla
 
-def abrirventana2():
+entries = []
+
+def abrirVentana2():
     ventana.withdraw()
     win= tk.Toplevel()
     win.geometry('500x300')
     win.title('Dimensiones')
 
-    boton2=tk.Button(win,text='Calcular', command= clicked)
+    zonesCount = combo.get()
+
+    boton2=tk.Button(win,text='Calcular', command=makeCalculationsForZones)
     boton2.pack(side=tk.BOTTOM)
 
-    lbl = tk.Label(win, text= 'Zona 1')
-    lbl.pack()
-    lbl2 = tk.Label(win, text = 'Introduzca el largo y ancho(cm^2)')
-    lbl2.pack(padx=5, pady=5, ipadx=5, ipady=5)
-    entrada1 = tk.Entry(win)
-    entrada1.pack()
-    entrada2 = tk.Entry(win)
-    entrada2.pack()
+    for zone in range(1, int(zonesCount) + 1):
+        lbl = tk.Label(win, text= 'Zona ' + str(zone))
+        lbl.pack()
+        lbl2 = tk.Label(win, text = 'Introduzca el largo y ancho(cm^2)')
+        lbl2.pack(padx=5, pady=5, ipadx=5, ipady=5)
 
-    lbl3 = tk.Label(win, text= 'Zona 2')
-    lbl3.pack()
-    lbl4 = tk.Label(win, text = 'Introduzca el largo y ancho(cm^2)')
-    lbl4.pack(padx=5, pady=5, ipadx=5, ipady=5)
-    entrada3 = tk.Entry(win)
-    entrada3.pack()
-    entrada4 = tk.Entry(win)
-    entrada4.pack()
+        lengthEntry = tk.Entry(win)
+        lengthEntry.pack()
 
-def cerrarventana():
+        widthEntry = tk.Entry(win)
+        widthEntry.pack()
+
+        entries.append((lengthEntry, widthEntry))
+
+def getZonesFromEntries(entries):
+    zones = []
+    for entry in entries:
+        length = entry[0].get()
+        width = entry[1].get()
+        zone = { "largo": int(length), "ancho": int(width) }
+        zones.append(zone)
+    return zones
+
+def cerrarVentana():
     ventana.destroy()
 
 def calculoDeLaSuperficieALimpiar(listaDeZonas):
@@ -49,28 +53,30 @@ def calculoDeLaSuperficieALimpiar(listaDeZonas):
 
 parametros = ("robot_aspirador",2)
 
-zonas = []
-
-
-
 def tiempoLimpiezaEnMinutos(superficieALimpiar, tiempoParaUnMetroCuadrado):
     return round(superficieALimpiar*tiempoParaUnMetroCuadrado)
 
-def clicked():
-    superficieALimpiar = calculoDeLaSuperficieALimpiar(zonas)
+def makeCalculationsForZones():
+    zones = getZonesFromEntries(entries)
+
+    superficieALimpiar = calculoDeLaSuperficieALimpiar(zones)
 
     tiempoEstimado = tiempoLimpiezaEnMinutos(superficieALimpiar,parametros[1])
 
-    if tiempoEstimado > 55:
-        print(parametros[0]+" dice: ¡Me parece que esto va a tardar un poco!")
-
     messagebox.showinfo('Aviso', "La superficie total a limpiar es de "+str(superficieALimpiar)+ " m2")
     messagebox.showinfo('Aviso', "El tiempo estimado es: "+str(tiempoEstimado)+" minutos")
-    messagebox.showinfo('Aviso', parametros[0]+" dice: ¡Me parece que esto va a tardar un poco!")
+
+    if tiempoEstimado > 55:
+        messagebox.showinfo('Aviso', parametros[0]+" dice: ¡Me parece que esto va a tardar un poco!")
+    else:
+        messagebox.showinfo('Aviso', parametros[0]+" dice: ¡Esto está en un periquete!")
+
+
 
 ventana = tk.Tk()
 ventana.title('Welcome to Roomba')
 ventana.geometry('520x300')
+
 label = tk.Label(text="Introduzca el número de zonas a limpiar:")
 label.pack()
 
@@ -79,15 +85,7 @@ combo['values']= (0, 1, 2, 3, 4)
 combo.current(0) #set the selected item
 combo.pack()
 
-button =tk.Button(ventana, text = 'OK', command = abrirventana2)
+button =tk.Button(ventana, text = 'OK', command = abrirVentana2)
 button.pack()
 
 ventana.mainloop()
-
-
-
-
-
-
-
-
