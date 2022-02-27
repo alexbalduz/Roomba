@@ -1,6 +1,8 @@
+from operator import length_hint
 import tkinter as tk
 from tkinter import LEFT, messagebox
 import tkinter.ttk as ttk
+import turtle
 
 entries = []
 
@@ -29,6 +31,7 @@ def abrirVentana2():
 
         entries.append((lengthEntry, widthEntry))
 
+
 def getZonesFromEntries(entries):
     zones = []
     for entry in entries:
@@ -36,6 +39,26 @@ def getZonesFromEntries(entries):
         width = entry[1].get()
         zone = { "largo": int(length), "ancho": int(width) }
         zones.append(zone)
+
+    zonesCount = combo.get()
+    t = turtle.Turtle()
+    for zone in zones:
+        if int(zonesCount) % 2 == 0:
+            t.fd(int(length))
+            t.rt(90)
+            t.fd(int(width))
+            t.rt(90)
+            t.fd(int(length))
+            t.rt(90)
+            t.fd(int(width))
+        else:
+            t.fd(int(length))
+            t.rt(90)
+            t.fd(int(width))
+            t.rt(90)
+            t.fd(int(length))
+            t.rt(90)
+            t.fd(int(width))
     return zones
 
 def cerrarVentana():
@@ -70,7 +93,6 @@ def makeCalculationsForZones():
         messagebox.showinfo('Aviso', parametros[0]+" dice: ¡Me parece que esto va a tardar un poco!")
     else:
         messagebox.showinfo('Aviso', parametros[0]+" dice: ¡Esto está en un periquete!")
-
 
 
 ventana = tk.Tk()
